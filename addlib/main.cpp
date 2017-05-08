@@ -5,18 +5,11 @@
 #include <array>
 #include <time.h>
 #include <stdlib.h>
-#include "sub.h"
-#include "add.h"
-#include "gflags/gflags.h"
+#include "lib.a/add.h"
+#include "lib.so/sub.h"
 
 /*
 */
-void testmove() {
-    std::string s1 = {"123"};
-    std::string s2 = std::move(s1);
-    printf("s1:%s  s2:%s\n", s1.c_str(), s2.c_str());
-}
-
 void testnullptr() {
     const char* ps = "hello\n";
     if(ps != nullptr) {
@@ -102,15 +95,11 @@ void testrandom() {
 	}
 }
 int main(int argc, char **argv) {
-    gflags::AllowCommandLineReparsing();
-	gflags::ParseCommandLineFlags(&argc, &argv, true);
-	//
 	testlib();
 	testrandom();
 	testlambda();
     testinit();
     testauto();
     testnullptr();
-    testmove();
     return 0;
 }
