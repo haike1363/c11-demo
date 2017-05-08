@@ -1,67 +1,64 @@
-#include <vector>
-#include <iostream>
+#include<iostream>
+#include<functional>
 
-struct NodeA {
-    int id = 0;
-    std::string name = "A";
-    void Show() {
-        printf("NodeA: %d %s\n", id, name.c_str());
+void func(void)
+{
+    std::cout << __FUNCTION__ << std::endl;
+}
+
+class Foo
+{
+public:
+    static int foo_func(int a)
+    {
+        std::cout << __FUNCTION__ << "(" << a << ") ->: ";
+        return a;
     }
 };
 
-struct NodeB {
-    int id = 1;
-    std::string name = "B";
-    NodeA nodea;
-    NodeB() {
-
-    }
-    NodeB(NodeB&& o)
-        : name(o.name)
+class Bar
+{
+public:
+    int operator() (int a)
     {
-        int t = o.id;
-        o.id = id;
-        id = t;
+        std::cout << __FUNCTION__ << "(" << a << ") ->: ";
+        return a;
     }
-    NodeB(const NodeB& o)
-        : id(o.id),
-          name(o.name),
-          nodea(o.nodea)
-    {
-    }
-    NodeB(int i, const std::string& n)
-        : id(i),
-          name(n)
-    {
-    }
-    void Show() {
-        printf("NodeB: %d %s nodea:%d %s\n", id, name.c_str(), nodea.id, nodea.name.c_str());
+    void show(int i) {
+        printf("Bar --- %d\n", i);
     }
 };
 
-int main(int argc, char **argv) {
-    // æ ‡å‡†åº“ç±»åž‹
-    std::vector<std::string> ss;
-    std::string s1 = {"s1"};
-    ss.push_back(std::move(s1));
-    printf("s1:%s\nvector s1:%s\n", s1.c_str(), ss[0].c_str());
+int main()
+{
+    // °ó¶¨ÆÕÍ¨º¯Êý
+    std::function<void(void)> fr1 = func;
+    fr1();
 
-    std::string s2 = {"s2"};
-    std::string s22(std::move(s2));
-    printf("s2:%s\ns22:%s\n", s2.c_str(), s22.c_str());
+    // °ó¶¨ÀàµÄ¾²Ì¬³ÉÔ±º¯Êý
+    std::function<int(int)> fr2 = Foo::foo_func;
+    std::cout << fr2(100) << std::endl;
 
-    std::string s3 = {"s3"};
-    s3 = std::move(s22);// è°ƒç”¨swapå‡½æ•°
-    printf("s3:%s\ns22:%s\n", s3.c_str(), s22.c_str());
+    // °ó¶¨·Âº¯Êý
+    Bar bar;
+    fr2 = bar;
+    std::cout << fr2(200) << std::endl;
 
-    // è‡ªå®šä¹‰ç±»åž‹
-    NodeB nodeb1 = { 1, "B" };
-    nodeb1.id = 11;
-    nodeb1.name = "B1";
+    // °ó¶¨Àà³ÉÔ±º¯Êý£¬´øÒ»¸ö²ÎÊý
+    typedef std::function<void(int)> ShowFuncT1;
+    ShowFuncT1 show1 = std::bind(&Bar::show, &bar, std::placeholders::_1);
+    show1(123);
 
-    nodeb1.Show();
-    NodeB nodeb2(std::move(nodeb1));
-    nodeb1.Show();
-    nodeb2.Show();
+    ShowFuncT1 show11 = std::bind(&Bar::show, &bar, 23);
+   // show11(); // ÀàÐÍ²»Æ¥Åä
+    show11(1); // ´«1Ã»ÓÃ£¬ÒòÎª23ÒÑ¾­±»bind¹ý£¬ÇÒ²»ÊÇstd::placeholders
+
+    typedef std::function<void(void)> ShowFuncT2;
+    ShowFuncT2 show2 = std::bind(&Bar::show, &bar, 2);
+    show2();
+
+    // ²»ºÏ·¨£¬±àÒë²»Í¨¹ý
+    // ShowFuncT2 show3 = std::bind(&Bar::show, &bar, std::placeholders::_1);
+
     return 0;
 }

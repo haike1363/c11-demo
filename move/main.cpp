@@ -22,18 +22,28 @@ void testSTLStruct () {
 
 void testUserBaseStruct() {
     struct DefaultNote {
-        DefaultNote() = default;
-        ~DefaultNote() = default;
+        // 无参构造
+        DefaultNote() {
+
+        }
+        // 析构
+        ~DefaultNote() {
+
+        }
+        // 拷贝构造
         DefaultNote(const DefaultNote& o) {
             printf("default copy construct\n");
         }
+        // 赋值
         DefaultNote& operator = (const DefaultNote& o) {
             printf("default assign\n");
             return *this;
         }
+        // 右值构造
         DefaultNote(DefaultNote&& o) {
             printf("default right value copy construct\n");
         }
+        // 右值赋值
         DefaultNote& operator = (DefaultNote&& o) {
             printf("default right value assign\n");
             return *this;
