@@ -6,7 +6,7 @@ void func(void)
     std::cout << __FUNCTION__ << std::endl;
 }
 
-class Foo
+class StringKey
 {
 public:
     static int foo_func(int a)
@@ -29,20 +29,26 @@ public:
     }
 };
 
-int main()
-{
+int main() {
     // 绑定普通函数
     std::function<void(void)> fr1 = func;
     fr1();
 
     // 绑定类的静态成员函数
-    std::function<int(int)> fr2 = Foo::foo_func;
+    std::function<int(int)> fr2 = StringKey::foo_func;
     std::cout << fr2(100) << std::endl;
 
     // 绑定仿函数
     Bar bar;
     fr2 = bar;
     std::cout << fr2(200) << std::endl;
+
+    // 绑定lamada函数
+    std::function<bool(int)> is_prime([&](int i)->bool {
+        std::cout << "not prime" << std::endl;
+        return false;
+    });
+    is_prime(1);
 
     // 绑定类成员函数，带一个参数
     typedef std::function<void(int)> ShowFuncT1;

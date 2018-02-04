@@ -88,7 +88,16 @@ void testUserBaseStruct() {
     node = std::move(node);
 }
 
+void transRValue(std::vector<int> && rvec) {
+    std::cout<< rvec.size();
+}
+void testRValue() {
+    std::vector<int> tmp = {1, 2, 3};
+    transRValue(std::move(tmp));
+}
+
 int main(int argc, char **argv) {
+    testRValue();
     testUserBaseStruct();
     testSTLStruct();
     return 0;
