@@ -9,7 +9,7 @@ std::string doA() {
     std::cout<<"doing A ...\n";
     std::this_thread::sleep_for(std::chrono::milliseconds(rd()%1000));
     std::cout<<"A done\n";
-    return "A";
+    return ("A");
 }
 
 std::string doB() {

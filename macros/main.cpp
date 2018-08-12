@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <list>
 #include "boost_serialize_helper.hpp"
 #include "to_string_helper.hpp"
 

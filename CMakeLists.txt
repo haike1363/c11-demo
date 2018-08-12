@@ -4,6 +4,9 @@ PROJECT(c11-demo)
 MESSAGE(STATUS "This is the binary dir:" ${PROJECT_BINARY_DIR})
 MESSAGE(STATUS "This is the source dir:" ${PROJECT_SOURCE_DIR})
 
+INCLUDE_DIRECTORIES("/Users/muzhu.cy/source/boost_1_65_1")
+INCLUDE_DIRECTORIES("/Users/muzhu.cy/source/linux/usr/local/include")
+
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++1y")
 
 ADD_SUBDIRECTORY(addlib/lib.a)

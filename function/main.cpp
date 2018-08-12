@@ -1,26 +1,21 @@
 #include<iostream>
 #include<functional>
 
-void func(void)
-{
+void func(void) {
     std::cout << __FUNCTION__ << std::endl;
 }
 
-class StringKey
-{
-public:
-    static int foo_func(int a)
-    {
+class StringKey {
+ public:
+    static int foo_func(int a) {
         std::cout << __FUNCTION__ << "(" << a << ") ->: ";
         return a;
     }
 };
 
-class Bar
-{
-public:
-    int operator() (int a)
-    {
+class Bar {
+ public:
+    int operator()(int a) {
         std::cout << __FUNCTION__ << "(" << a << ") ->: ";
         return a;
     }
@@ -30,40 +25,40 @@ public:
 };
 
 int main() {
-    // °ó¶¨ÆÕÍ¨º¯Êý
+    // ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½
     std::function<void(void)> fr1 = func;
     fr1();
 
-    // °ó¶¨ÀàµÄ¾²Ì¬³ÉÔ±º¯Êý
+    // ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½Ì¬ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
     std::function<int(int)> fr2 = StringKey::foo_func;
     std::cout << fr2(100) << std::endl;
 
-    // °ó¶¨·Âº¯Êý
+    // ï¿½ó¶¨·Âºï¿½ï¿½ï¿½
     Bar bar;
     fr2 = bar;
     std::cout << fr2(200) << std::endl;
 
-    // °ó¶¨lamadaº¯Êý
+    // ï¿½ï¿½lamadaï¿½ï¿½ï¿½ï¿½
     std::function<bool(int)> is_prime([&](int i)->bool {
         std::cout << "not prime" << std::endl;
         return false;
     });
     is_prime(1);
 
-    // °ó¶¨Àà³ÉÔ±º¯Êý£¬´øÒ»¸ö²ÎÊý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     typedef std::function<void(int)> ShowFuncT1;
     ShowFuncT1 show1 = std::bind(&Bar::show, &bar, std::placeholders::_1);
     show1(123);
 
     ShowFuncT1 show11 = std::bind(&Bar::show, &bar, 23);
-   // show11(); // ÀàÐÍ²»Æ¥Åä
-    show11(1); // ´«1Ã»ÓÃ£¬ÒòÎª23ÒÑ¾­±»bind¹ý£¬ÇÒ²»ÊÇstd::placeholders
+    // show11(); // ï¿½ï¿½ï¿½Í²ï¿½Æ¥ï¿½ï¿½
+    show11(1);  // ï¿½ï¿½1Ã»ï¿½Ã£ï¿½ï¿½ï¿½Îª23ï¿½Ñ¾ï¿½ï¿½ï¿½bindï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½std::placeholders
 
     typedef std::function<void(void)> ShowFuncT2;
     ShowFuncT2 show2 = std::bind(&Bar::show, &bar, 2);
     show2();
 
-    // ²»ºÏ·¨£¬±àÒë²»Í¨¹ý
+    // ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»Í¨ï¿½ï¿½
     // ShowFuncT2 show3 = std::bind(&Bar::show, &bar, std::placeholders::_1);
 
     return 0;

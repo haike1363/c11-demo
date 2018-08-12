@@ -4,7 +4,7 @@
 void Print(const std::string& s) {
     printf("%s\n", s.c_str());
 }
-void testSTLStruct () {
+void testSTLStruct() {
     std::string s1 = "s1";
     // s11偷了s1的 impl
     std::string s11(std::move(s1));
@@ -17,7 +17,7 @@ void testSTLStruct () {
     s22 = std::move(s2);
     Print(s2);
     Print(s22);
-};
+}
 
 
 void testUserBaseStruct() {
@@ -35,7 +35,7 @@ void testUserBaseStruct() {
             printf("default copy construct\n");
         }
         // 赋值
-        DefaultNote& operator = (const DefaultNote& o) {
+        DefaultNote& operator =(const DefaultNote& o) {
             printf("default assign\n");
             return *this;
         }
@@ -44,7 +44,7 @@ void testUserBaseStruct() {
             printf("default right value copy construct\n");
         }
         // 右值赋值
-        DefaultNote& operator = (DefaultNote&& o) {
+        DefaultNote& operator =(DefaultNote&& o) {
             printf("default right value assign\n");
             return *this;
         }
@@ -80,19 +80,17 @@ void testUserBaseStruct() {
         DefaultNote base;
     };
 
-
     Node node;
     Node node1(node);
-    node = node;
     Node node2(std::move(node));
     node = std::move(node);
 }
 
 void transRValue(std::vector<int> && rvec) {
-    std::cout<< rvec.size();
+    std::cout << rvec.size();
 }
 void testRValue() {
-    std::vector<int> tmp = {1, 2, 3};
+    std::vector<int> tmp = { 1, 2, 3 };
     transRValue(std::move(tmp));
 }
 
